@@ -28,19 +28,19 @@ public class Config {
     }
 
     @Bean
-    @Scope("singleton")
+    @Scope("prototype")
     public PlayersDeck getPlayersDeckBean(){
         return new PlayersDeck();
     }
 
     @Bean
-    @Scope("singleton")
+    @Scope("prototype")
     public PlayersHand getPlayersHandBean(){
         return new PlayersHand();
     }
 
     @Bean
-    @Scope("singleton")
+    @Scope("prototype")
     public PlayersField getPlayersFieldBean(){
         return new PlayersField();
     }
