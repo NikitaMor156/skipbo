@@ -38,7 +38,7 @@ public class PlayField {
         return result;
     }
 
-    //Puts card on any free slot in playing field
+    //Tries to put card on any suitable slot on playing field
     //Returns true if operation was successful, false if not
     public boolean tryToPutCard(Card card) {
         //(На всякий случай)
@@ -65,10 +65,40 @@ public class PlayField {
         return false;
     }
 
+    //Tries to put card on defined slot on playing field
+    //Returns true if operation was successful, false if not
+    public boolean tryToPutCard(Card card, int slotNumber) {
+        //(На всякий случай)
+        handleFullStack();
+
+        boolean result = false;
+        int upperCardValue = slots.get(slotNumber).size();
+        if (card.getValue() == 0) {
+            //- кладём skipbo на любую карту
+            result = true;
+        } else if (slots.get(slotNumber).isEmpty() && card.getValue() == 1) {
+            //- кладём 1 на пустое поле
+            result = true;
+        } else if (slots.get(slotNumber).isEmpty() && card.getValue() != 1) {
+            //- пустое поле и карта не 1, false
+            result = false;
+        } else if (upperCardValue == card.getValue() - 1) {
+            //- карта на 1 больше предидущей
+            result = true;
+        }
+        if (result) {
+            //- если result = true, то кладём катру
+            slots.get(slotNumber).add(card);
+            handleFullStack();
+            return true;
+        }
+        return false;
+    }
+
     //Put all cards from slot to played deck if slot is full
     public void handleFullStack() {
         for (int i = 0; i < slots.size(); i++) {
-            if (slots.get(i).size() >= slotSize){
+            if (slots.get(i).size() >= slotSize) {
                 playedDeck.add(slots.get(i));
                 slots.get(i).clear();
             }
